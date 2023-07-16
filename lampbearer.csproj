@@ -7,4 +7,18 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Resources\map.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\map.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="RogueSharp" Version="4.2.0" />
+  </ItemGroup>
+
 </Project>
