@@ -1,0 +1,33 @@
+﻿{
+  "T": {
+    "Symbol": "T",
+    "Color": "DarkGreen",
+    "Transparent": "false",
+    "Walkable": "false"
+  },
+  ".": {
+    "Symbol": ".",
+    "Color": "DarkRed",
+    "Transparent": "false",
+    "Walkable": "true"
+  },
+  "\"": {
+    "Symbol": "\"",
+    "Color": "DarkGreen",
+    "Transparent": "false",
+    "Walkable": "true"
+  },
+  "*": {
+    "Symbol": "*",
+    "Color": "DarkGray",
+    "Transparent": "false",
+    "Walkable": "false"
+  },
+  "#": {
+    "Symbol": "#",
+    "Color": "DarkGray",
+    "Transparent": "false",
+    "Walkable": "false"
+  }
+}
+  
