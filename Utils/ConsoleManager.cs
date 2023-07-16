@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace lampbearer.Utils
 {
-    internal class ConsoleManager
+    internal static class ConsoleDrawer
     {
-        public void Draw(int x, int y, char symbol, Color color, Color bgColor)
+        public static void Draw(int x, int y, char symbol, Color color, Color bgColor)
         {
             Console.SetCursorPosition(x, y);
             Console.ForegroundColor = ColorMapper.toConsoleColor(color);
@@ -18,7 +18,7 @@ namespace lampbearer.Utils
             Console.ResetColor();
         }
 
-        public void Draw(int x, int y, char symbol, Color color)
+        public static void Draw(int x, int y, char symbol, Color color)
         {
             Draw(x, y, symbol, color, Color.Black);
         }

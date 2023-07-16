@@ -9,6 +9,6 @@ namespace lampbearer.Map
 {
     internal interface IMapGenerator
     {
-        IMap GenerateMap();
+        Map GenerateMap();
     }
 }
