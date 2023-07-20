@@ -13,6 +13,7 @@ namespace lampbearer.Map
     internal class FileMapGenerator : IMapGenerator
     {
         private static readonly String _path = "./Resources/map.txt";
+        private static readonly String[] delims = new[] { "\r\n", "\r", "\n" };
 
         public Map GenerateMap()
         {
@@ -73,8 +74,7 @@ namespace lampbearer.Map
             //TODO: сделать чтение без специальных симоволов, чтобы не зависить от ОС
             StreamReader sr = new StreamReader(_path);
             string str = sr.ReadToEnd();
-
-            foreach(var row in str.Split("\r\n"))
+            foreach (var row in str.Split(delims, StringSplitOptions.RemoveEmptyEntries))
             {
                 result.Add(row);
 

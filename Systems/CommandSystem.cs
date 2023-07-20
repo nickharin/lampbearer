@@ -42,12 +42,14 @@ namespace lampbearer.Systems
                     }
             }
 
+            Game.Map.MoveCamera(Game.Player, x, y);
+
             if (Game.Map.SetActorPosition(Game.Player, x, y))
             {
                 return true;
             }
 
-            return false;
+            return true;
         }
 
     }

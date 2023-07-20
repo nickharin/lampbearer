@@ -43,15 +43,54 @@ namespace lampbearer.Map
         public void Draw(Player player, Window window)
         {
             Camera camera = player.Camera;
-            
-            for (int y = camera.getStartY(player.Y); y < camera.getEndY(player.Y); y++)
+
+            ConsoleDrawer.Draw(41, 2, $"Camera x0:{camera.GetStartX(player.X)}, y0:{camera.GetStartY(player.Y)}");
+            ConsoleDrawer.Draw(41, 3, $"Camera x1:{camera.GetEndX()}, y1:{camera.GetEndY()}");
+            int wY = 0, wX = 0;
+            for (int y = camera.Y; y < camera.GetEndY(); y++)
             {
-                for (int x = camera.getStartX(player.X); x < camera.getEndX(player.X); x++)
+                for (int x = camera.X; x < camera.GetEndX(); x++)
                 { 
-                    window.Draw(x, y, GetCell(x, y));
-                    window.Draw(player);
+                    window.Draw(wX, wY, GetCell(x, y));
+
+                    window.Draw(camera.GetInCameraX(player), camera.GetInCameraY(player), player);
+                    wX++;
                 }
+               wX = 0;
+               wY++;
             }
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="x">Координата, на которую пытаемся передвинуть игрока </param>
+        /// <param name="y">Координата, на которую пытаемся передвинуть игрока </param>
+        /// <returns></returns>
+        public void MoveCamera(Player player, int x, int y)
+        {
+            /**Двигаем камеру + проверки
+             * 1) Размеры карты, мы здесь мы их знаеа
+             * 2) Координаты камеры (они в камере), (камера в игроке)
+             * 3) Вопрос? Кто и где вычилсляет проверки с камерой
+             * 
+             * TODO изменить координаты камеры(игрок двигается), проверить пересекается ли границы камеры и карты
+             *      
+             * В СЛЕДУЮЩИЙ РАЗ:
+                ПРОВЕРКИ
+                ПРОБЛЕМА С +1\-1 С КАРТОЙ (ВРЕЗАЕМСЯ В ТРАВУ)
+             * **/
+
+            if (x >= Height - 1 || y >= Width - 1) return;
+
+            if (player.Camera.X == Width || player.Camera.Y == Height) return;
+           
+            // TODO Сделать сетер вместо вот этого SetStartX
+            player.Camera.X = player.Camera.GetStartX(x);
+            player.Camera.Y = player.Camera.GetStartY(y);
+
         }
 
         /// <summary>
@@ -63,6 +102,8 @@ namespace lampbearer.Map
         /// <returns></returns>
         public bool SetActorPosition(IActor actor, int x, int y)
         {
+            if (x > Width || y > Height || x < 0 || y < 0) { return false; } 
+
             // Only allow actor placement if the cell is walkable
             if (GetCell(x, y).IsWalkable)
             {

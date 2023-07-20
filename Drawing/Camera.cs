@@ -1,4 +1,5 @@
-﻿using System;
+﻿using lampbearer.Actor;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,13 +11,26 @@ namespace lampbearer.Drawing
     {
 		private int _width;
 		private int _height;
+		private int _x;
+		private int _y;
+
+		public int Y
+		{
+			get { return _y; }
+			set { _y = value; }
+		}
+
+		public int X
+		{
+			get { return _x; }
+			set { _x = value; }
+		}
 
 		public int Height
 		{
 			get { return _height; }
 			set { _height = value; }
 		}
-
 
 		public int Width
         {
@@ -29,39 +43,55 @@ namespace lampbearer.Drawing
 		{
 			return new Camera
 			{
-				Height = 6,
-				Width = 6
+				Height = 10,
+				Width = 10
 			};
         }
 
         /// <summary>
-        /// Считает x-координату правого верхнего угола области камеры на основе координаты персонажа
+        /// Считает x-координату правого верхнего угола области камеры на основе координаты камеры
         /// </summary>
-        /// <param name="x">Координата персонажа на которго смотрит камера</param>
         /// <returns></returns>
-        internal int getEndX(int x)
+        internal int GetEndX()
         {
-			return x + Width/2;
+			return X + Width;
         }
 
-        internal int getEndY(int y)
+        internal int GetEndY()
         {
-			return y + Height/2;
+			return Y + Height;
         }
+
+
+
+
 		
 		/// <summary>
 		/// Считает x-координату левого верхнего угола области камеры на основе координаты персонажа
 		/// </summary>
 		/// <param name="x">Координата персонажа на которго смотрит камера</param>
 		/// <returns></returns>
-        internal int getStartX(int x)
+        internal int GetStartX(int x)
         {
 			return x - Width/2;
         }
 
-        internal int getStartY(int y)
+        internal int GetStartY(int y)
         {
 			return y - Height/2;
         }
+
+        internal int GetInCameraX(Player player)
+        {
+            return player.X - GetStartX(player.X);
+        }
+
+        internal int GetInCameraY(Player player)
+        {
+            return player.Y - GetStartY(player.Y);
+        }
+
+
+
     }
 }

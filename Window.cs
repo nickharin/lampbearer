@@ -107,6 +107,15 @@ namespace lampbearer
             ConsoleDrawer.Draw(x, y, actor.Symbol, actor.Color); 
         }
 
+        internal void Draw(int x, int y, IActor actor)
+        {
+
+            if (x < windowXLeftBorder || x > windowXRightBorder) return;
+            if (y < windowYTopBorder || y > windowYBottomBorder) return;
+
+            ConsoleDrawer.Draw(x, y, actor.Symbol, actor.Color);
+        }
+
 
         /// <summary>
         /// Возвращает координаты учитывая особенности окна (ширину\высоту, границу)

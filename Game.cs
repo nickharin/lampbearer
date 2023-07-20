@@ -15,7 +15,7 @@ class Game
     static void Main(string[] args)
     {
 
-        Window mapWindow = new(0, 0, 40, 20, true);
+        Window mapWindow = new(0, 0, 10, 10, true);
         Player = new Player();
 
         FileMapGenerator mapGenerator = new();
