@@ -12,7 +12,7 @@ namespace lampbearer.Map
 {
     internal class FileMapGenerator : IMapGenerator
     {
-        private static readonly String _path = "./Resources/map.txt";
+        private static readonly String _path = "./Resources/Map.txt";
         private static readonly String[] delims = new[] { "\r\n", "\r", "\n" };
 
         public Map GenerateMap()
@@ -58,9 +58,13 @@ namespace lampbearer.Map
         {
             if (!symbolToConfig.ContainsKey(mapConfigSymbol.ToString()))
             {
-                CellConfigProperty cellConfigProperty = new();
-                cellConfigProperty.Symbol = '!';
-                cellConfigProperty.Color = Color.Red.ToString();
+                CellConfigProperty cellConfigProperty = new()
+                {
+                    Symbol = mapConfigSymbol,
+                    Color = Color.Red.Name.ToString(),
+                    Transparent=false,
+                    Walkable=true
+                };
                 return cellConfigProperty;
             }
 

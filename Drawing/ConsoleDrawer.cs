@@ -10,6 +10,12 @@ namespace lampbearer.Drawing
 {
     internal static class ConsoleDrawer
     {
+
+        public static void ConfigureConsole()
+        {
+            System.Console.CursorVisible = false;
+        }
+
         public static void Draw(int x, int y, char symbol, Color color, Color bgColor)
         {
             System.Console.SetCursorPosition(x, y);
@@ -17,7 +23,6 @@ namespace lampbearer.Drawing
             System.Console.BackgroundColor = ColorMapper.toConsoleColor(bgColor);
             System.Console.Write(symbol);
             System.Console.ResetColor();
-            System.Console.SetCursorPosition(System.Console.CursorLeft, System.Console.CursorTop + System.Console.WindowHeight/2);
         }
 
         public static void Draw(int x, int y, char symbol, Color color)
@@ -30,5 +35,6 @@ namespace lampbearer.Drawing
             System.Console.SetCursorPosition(x, y);
             System.Console.Write(str);
         }
+
     }
 }

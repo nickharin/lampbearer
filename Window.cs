@@ -98,8 +98,8 @@ namespace lampbearer
 
         internal void Draw(IActor actor)
         {
-            int x = getWindowX(actor.X);
-            int y = getWindowY(actor.Y);
+            int x = getWindowX(actor.X - 1);
+            int y = getWindowY(actor.Y - 1);
 
             if (x < windowXLeftBorder || x > windowXRightBorder) return;
             if (y < windowYTopBorder || y > windowYBottomBorder) return;

@@ -44,12 +44,13 @@ namespace lampbearer.Map
         {
             Camera camera = player.Camera;
 
-            ConsoleDrawer.Draw(41, 2, $"Camera x0:{camera.GetStartX(player.X)}, y0:{camera.GetStartY(player.Y)}");
-            ConsoleDrawer.Draw(41, 3, $"Camera x1:{camera.GetEndX()}, y1:{camera.GetEndY()}");
+            ConsoleDrawer.Draw(41, 2, $"Camera x0:{camera.X}, y0:{camera.Y}");
+            ConsoleDrawer.Draw(41, 3, $"Camera x1:{camera.GetCameraEndX()}, y1:{camera.GetCameraEndY()}");
+            //TODO: Рефакторинг, мб часть логики в окно вынести
             int wY = 0, wX = 0;
-            for (int y = camera.Y; y < camera.GetEndY(); y++)
+            for (int y = camera.Y; y < camera.GetCameraEndY(); y++)
             {
-                for (int x = camera.X; x < camera.GetEndX(); x++)
+                for (int x = camera.X; x < camera.GetCameraEndX(); x++)
                 { 
                     window.Draw(wX, wY, GetCell(x, y));
 
@@ -77,21 +78,21 @@ namespace lampbearer.Map
              * 3) Вопрос? Кто и где вычилсляет проверки с камерой
              * 
              * TODO изменить координаты камеры(игрок двигается), проверить пересекается ли границы камеры и карты
-             *      
-             * В СЛЕДУЮЩИЙ РАЗ:
-                ПРОВЕРКИ
-                ПРОБЛЕМА С +1\-1 С КАРТОЙ (ВРЕЗАЕМСЯ В ТРАВУ)
+
              * **/
 
-            if (x >= Height - 1 || y >= Width - 1) return;
-
-            if (player.Camera.X == Width || player.Camera.Y == Height) return;
-           
             // TODO Сделать сетер вместо вот этого SetStartX
-            player.Camera.X = player.Camera.GetStartX(x);
-            player.Camera.Y = player.Camera.GetStartY(y);
+            if (player.Camera.CanMoveCameraX(player, Width))
+            { 
+                player.Camera.X = player.Camera.CalculateStartX(x);
+            }
+            if (player.Camera.CanMoveCameraY(player, Height))
+            {
+                player.Camera.Y = player.Camera.CalculateStartY(y);
+            }
 
         }
+
 
         /// <summary>
         /// Returns true when able to place the Actor on the cell or false otherwise
@@ -102,7 +103,7 @@ namespace lampbearer.Map
         /// <returns></returns>
         public bool SetActorPosition(IActor actor, int x, int y)
         {
-            if (x > Width || y > Height || x < 0 || y < 0) { return false; } 
+            if (x >= Width || y >= Height || x < 0 || y < 0) { return false; } 
 
             // Only allow actor placement if the cell is walkable
             if (GetCell(x, y).IsWalkable)

@@ -14,12 +14,18 @@ namespace lampbearer.Drawing
 		private int _x;
 		private int _y;
 
-		public int Y
+        /// <summary>
+        /// Координата левого верхнего угла камеры
+        /// </summary>
+        public int Y
 		{
 			get { return _y; }
 			set { _y = value; }
 		}
 
+		/// <summary>
+		/// Координата левого верхнего угла камеры
+		/// </summary>
 		public int X
 		{
 			get { return _x; }
@@ -29,13 +35,11 @@ namespace lampbearer.Drawing
 		public int Height
 		{
 			get { return _height; }
-			set { _height = value; }
 		}
 
 		public int Width
         {
 			get { return _width; }
-			set { _width = value; }
 		}
 
 
@@ -43,8 +47,10 @@ namespace lampbearer.Drawing
 		{
 			return new Camera
 			{
-				Height = 10,
-				Width = 10
+				_height = 16,
+				_width = 30,
+				X = 0,
+				Y = 0
 			};
         }
 
@@ -52,46 +58,73 @@ namespace lampbearer.Drawing
         /// Считает x-координату правого верхнего угола области камеры на основе координаты камеры
         /// </summary>
         /// <returns></returns>
-        internal int GetEndX()
+        internal int GetCameraEndX()
         {
 			return X + Width;
         }
 
-        internal int GetEndY()
+        internal int GetCameraEndY()
         {
 			return Y + Height;
         }
 
 
 
-
-		
-		/// <summary>
-		/// Считает x-координату левого верхнего угола области камеры на основе координаты персонажа
-		/// </summary>
-		/// <param name="x">Координата персонажа на которго смотрит камера</param>
-		/// <returns></returns>
-        internal int GetStartX(int x)
+        /// <summary>
+        /// Считает x-координату левого верхнего угла области камеры на основе координаты персонажа
+        /// </summary>
+        /// <param name="x">Координата персонажа на которго смотрит камера</param>
+        /// <returns></returns>
+        internal int CalculateStartX(int x)
         {
-			return x - Width/2;
+            return x - Width / 2;
         }
 
-        internal int GetStartY(int y)
+        internal int CalculateStartY(int y)
         {
-			return y - Height/2;
+            return y - Height / 2;
+        }
+
+        internal int CalculateEndX(int x)
+        {
+            return x + Width / 2;
+        }
+
+        internal int CalculateEndY(int y)
+        {
+            return y + Height / 2;
         }
 
         internal int GetInCameraX(Player player)
         {
-            return player.X - GetStartX(player.X);
+            return player.X - X + 1;
         }
 
         internal int GetInCameraY(Player player)
         {
-            return player.Y - GetStartY(player.Y);
+            return player.Y - Y + 1;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="width"></param>
+        /// <returns></returns>
+        internal bool CanMoveCameraX(Player player, int width)
+        {
+            return CalculateStartX(player.X) >= 0 && CalculateEndX(player.X) <= width;
+        }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="height"></param>
+        /// <returns></returns>
+        internal bool CanMoveCameraY(Player player, int height)
+        {
+            return CalculateStartY(player.Y) >= 0 && CalculateEndY(player.Y) <= height;
+        }
     }
 }

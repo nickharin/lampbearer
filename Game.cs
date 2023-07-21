@@ -14,20 +14,21 @@ class Game
 
     static void Main(string[] args)
     {
+        ConsoleDrawer.ConfigureConsole();
 
-        Window mapWindow = new(0, 0, 10, 10, true);
+        Window mapWindow = new(0, 0, 30, 16, true);
         Player = new Player();
 
         FileMapGenerator mapGenerator = new();
         Map = mapGenerator.GenerateMap();
+        Map.MoveCamera(Player, Player.X, Player.Y);
 
-        Map.Draw(Player, mapWindow);
         ConsoleKey key;
         do
         {
+            Map.Draw(Player, mapWindow);
             key = ConsoleManager.getKey();
             handleMovement(Player, key);
-            Map.Draw(Player, mapWindow);
             ConsoleDrawer.Draw(41, 1, $"Player x:{Player.X}, y:{Player.Y}");
 
         } while (key != ConsoleKey.Escape);
