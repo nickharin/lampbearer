@@ -11,12 +11,18 @@ namespace lampbearer.Actor
 {
     public class Player : IActor, IDrawable
     {
-        private int _x = 5;
-        private int _y = 5;
+        private int _x = 15;
+        private int _y = 15;
         private Color _color = Color.Yellow;
         private char _symbol = '@';
         private string _name;
         private Camera _camera = Camera.Default();
+
+        public Player(int x, int y)
+        {
+            X = x;
+            Y = y;
+        }
 
         public Camera Camera
         {

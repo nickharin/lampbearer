@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,15 +13,28 @@ namespace lampbearer.Map
 {
     public class Map : RogueSharp.Map
     {
+
+        private List<Light.Light> _lights = new List<Light.Light>();
+
+        public List<Light.Light> Lights
+        {
+            get { return _lights; }
+            set { _lights = value; }
+        }
+
         private Color[,] _color;
         private char[,] _symbol;
+        private FieldOfView _fieldOfView;
+        private readonly Color DEFAULT_NON_LIGHT_COLOR = Color.DarkGray;
 
         public new void Initialize(int width, int height)
         { 
             _color = new Color[width, height];
             _symbol = new char[width, height];
+            _fieldOfView = new FieldOfView(this);
             base.Initialize(width, height);
         }
+
         public void SetCellProperties(int x, int y, bool isTransparent, bool isWalkable, Color color, char symbol, bool isExplored = false)
         {
             _color[x, y] = color;
@@ -40,26 +54,60 @@ namespace lampbearer.Map
             throw new NotImplementedException();
         }
 
-        public void Draw(Player player, Window window)
+        public void Draw(Camera camera, Window window)
         {
-            Camera camera = player.Camera;
-
             ConsoleDrawer.Draw(41, 2, $"Camera x0:{camera.X}, y0:{camera.Y}");
             ConsoleDrawer.Draw(41, 3, $"Camera x1:{camera.GetCameraEndX()}, y1:{camera.GetCameraEndY()}");
-            //TODO: Рефакторинг, мб часть логики в окно вынести
+            //TODO: Весь этот код и код отрисовки в карте сосет жопу все через костыли, надо переделать
             int wY = 0, wX = 0;
             for (int y = camera.Y; y < camera.GetCameraEndY(); y++)
             {
                 for (int x = camera.X; x < camera.GetCameraEndX(); x++)
-                { 
-                    window.Draw(wX, wY, GetCell(x, y));
-
-                    window.Draw(camera.GetInCameraX(player), camera.GetInCameraY(player), player);
+                {
+                    //ТО что в свете, не нужно отрисовывать. потому что оно отрисуется при отрисовке света
+                    if (isNotInLight(y, x))
+                    {
+                        window.Draw(wX, wY, GetCell(x, y), DEFAULT_NON_LIGHT_COLOR);
+                    }
                     wX++;
                 }
-               wX = 0;
+                wX = 0;
                wY++;
             }
+        }
+
+        private bool isNotInLight(int y, int x)
+        {
+            return !_fieldOfView.IsInFov(x, y);
+        }
+
+        internal void DrawActor(Player player, Window window)
+        {
+            Camera camera = player.Camera;
+            window.Draw(camera.GetInCameraX(player.X), camera.GetInCameraY(player.Y), player);
+        }
+
+        public void DrawLight(Camera camera, Window window)
+        {
+            foreach(var light in Lights)
+            {
+                foreach(var cell in GetCellsForLight(light))
+                {
+                    //TODO: -1 - Временный костыль, у игрока не надо вычитать, а тут почему-то надо... разобраться
+                    window.Draw(camera.GetInCameraX(cell.X - 1), camera.GetInCameraY(cell.Y - 1), GetCell(cell.X, cell.Y), light);
+                }
+            }
+        }
+
+        private IEnumerable<ICell> GetCellsForLight(Light.Light light)
+        {
+            if(light.LightType == Light.LightType.CIRCLE)
+            {
+                return _fieldOfView.ComputeFov(light.X, light.Y, light.Intencity);
+            }
+
+
+            return _fieldOfView.ComputeFov(light.X, light.Y, light.Intencity);
         }
 
 

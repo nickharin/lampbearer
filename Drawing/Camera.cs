@@ -47,7 +47,7 @@ namespace lampbearer.Drawing
 		{
 			return new Camera
 			{
-				_height = 16,
+				_height = 25,
 				_width = 30,
 				X = 0,
 				Y = 0
@@ -95,14 +95,14 @@ namespace lampbearer.Drawing
             return y + Height / 2;
         }
 
-        internal int GetInCameraX(Player player)
+        internal int GetInCameraX(int x)
         {
-            return player.X - X + 1;
+            return x - X + 1;
         }
 
-        internal int GetInCameraY(Player player)
+        internal int GetInCameraY(int y)
         {
-            return player.Y - Y + 1;
+            return y - Y + 1;
         }
 
         /// <summary>
@@ -113,7 +113,7 @@ namespace lampbearer.Drawing
         /// <returns></returns>
         internal bool CanMoveCameraX(Player player, int width)
         {
-            return CalculateStartX(player.X) >= 0 && CalculateEndX(player.X) <= width;
+            return CalculateStartX(player.X) >= 0 && CalculateEndX(player.X) < width;
         }
 
         /// <summary>
@@ -124,7 +124,7 @@ namespace lampbearer.Drawing
         /// <returns></returns>
         internal bool CanMoveCameraY(Player player, int height)
         {
-            return CalculateStartY(player.Y) >= 0 && CalculateEndY(player.Y) <= height;
+            return CalculateStartY(player.Y) >= 0 && CalculateEndY(player.Y) < height;
         }
     }
 }

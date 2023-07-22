@@ -28,6 +28,7 @@ namespace lampbearer.Map
                 {
                     CellConfigProperty cellConfigProperty =
                         GetCellConfigProperty(symbolToConfig, mapConfig[y][x]);
+
                     map.SetCellProperties(x, y, cellConfigProperty.Transparent,
                         cellConfigProperty.Walkable, getColor(cellConfigProperty.Color),
                         cellConfigProperty.Symbol);
@@ -35,7 +36,14 @@ namespace lampbearer.Map
 
             }
 
+            PlaceLight(map);
             return map;
+        }
+
+        private static void PlaceLight(Map map)
+        {
+            map.Lights.Add(Light.Light.DefaultCircle(15, 15, 15, Color.Goldenrod));
+            map.Lights.Add(Light.Light.DefaultCircle(152, 20, 8, Color.LightSlateGray));
         }
 
         private static int GetHeight(List<string> mapConfig)

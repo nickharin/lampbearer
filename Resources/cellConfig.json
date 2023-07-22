@@ -2,19 +2,19 @@
   "T": {
     "Symbol": "T",
     "Color": "DarkGreen",
-    "Transparent": "false",
+    "Transparent": "true",
     "Walkable": "false"
   },
   ".": {
     "Symbol": ".",
-    "Color": "DarkRed",
-    "Transparent": "false",
+    "Color": "Crimson",
+    "Transparent": "true",
     "Walkable": "true"
   },
   "\"": {
     "Symbol": "\"",
-    "Color": "DarkGreen",
-    "Transparent": "false",
+    "Color": "DarkOrange",
+    "Transparent": "true",
     "Walkable": "true"
   },
   "*": {

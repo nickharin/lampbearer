@@ -1,5 +1,6 @@
 ﻿using lampbearer.Actor;
 using lampbearer.Drawing;
+using lampbearer.Map;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -30,6 +31,7 @@ namespace lampbearer
         private Color _borderColor = Color.DarkGray;
         private char _borderSymbol = '+';
         private bool _withBorder;
+        private readonly Color DEFAULT_BACKGROUND_COLOR = Color.Black;
 
         public bool WithBorder
         {
@@ -85,7 +87,7 @@ namespace lampbearer
             }
         }
 
-        public void Draw(int x, int y, Map.Cell cell)
+        public void Draw(int x, int y, Cell cell, Color color, Color backgroundColor)
         {
             x = getWindowX(x);
             y = getWindowY(y);
@@ -93,7 +95,17 @@ namespace lampbearer
             if (x < windowXLeftBorder || x > windowXRightBorder) return;
             if (y < windowYTopBorder || y > windowYBottomBorder) return;
 
-            ConsoleDrawer.Draw(x, y, cell.Symbol, cell.Color);
+            ConsoleDrawer.Draw(x, y, cell.Symbol, color, backgroundColor);
+        }
+
+        public void Draw(int x, int y, Cell cell, Color color)
+        {
+            Draw(x, y, cell, color, DEFAULT_BACKGROUND_COLOR);
+        }
+
+        public void Draw(int x, int y, Cell cell, Light.Light light)
+        {
+            Draw(x, y, cell, cell.Color);
         }
 
         internal void Draw(IActor actor)

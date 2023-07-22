@@ -22,12 +22,19 @@ namespace lampbearer.Drawing
             System.Console.ForegroundColor = ColorMapper.toConsoleColor(color);
             System.Console.BackgroundColor = ColorMapper.toConsoleColor(bgColor);
             System.Console.Write(symbol);
-            System.Console.ResetColor();
+            //System.Console.ResetColor();
+            //Thread.Sleep(1);
         }
 
         public static void Draw(int x, int y, char symbol, Color color)
         {
             Draw(x, y, symbol, color, Color.Black);
+        }
+
+        internal static void Draw(int x, int y, char symbol)
+        {
+            System.Console.SetCursorPosition(x, y);
+            System.Console.Write(symbol);
         }
 
         internal static void Draw(int x, int y, string str)
