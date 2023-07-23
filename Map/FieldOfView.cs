@@ -67,9 +67,9 @@ namespace lampbearer.Map
                     //    break;
                     //}
 
+                    _inFov.Add(_map.IndexFor(item2));
                     if (item2.IsTransparent)
                     {
-                        _inFov.Add(_map.IndexFor(item2));
                         continue;
                     }
 

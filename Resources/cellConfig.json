@@ -2,7 +2,7 @@
   "T": {
     "Symbol": "T",
     "Color": "DarkGreen",
-    "Transparent": "true",
+    "Transparent": "false",
     "Walkable": "false"
   },
   ".": {

@@ -42,7 +42,7 @@ namespace lampbearer.Map
 
         private static void PlaceLight(Map map)
         {
-            map.Lights.Add(Light.Light.DefaultCircle(15, 15, 15, Color.Goldenrod));
+            map.Lights.Add(Light.Light.DefaultCircle(15, 16, 15, Color.Goldenrod));
             map.Lights.Add(Light.Light.DefaultCircle(152, 20, 8, Color.LightSlateGray));
         }
 

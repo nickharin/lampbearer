@@ -32,7 +32,7 @@ class Game
             Map.DrawActor(Player, mapWindow);
             key = ConsoleManager.getKey();
             handleMovement(Player, key);
-            ConsoleDrawer.Draw(1, mapWindow.Height + 1, $"Player x:{Player.X}, y:{Player.Y}");
+            ConsoleDrawer.Draw(1, mapWindow.Height + 1, $"Player x:{Player.X}  , y:{Player.Y}  ");
 
         } while (key != ConsoleKey.Escape);
 
