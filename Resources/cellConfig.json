@@ -7,15 +7,15 @@
   },
   ".": {
     "Symbol": ".",
-    "Color": "Brown",
-    "Transparent": "false",
-    "Walkable": "false"
+    "Color": "Crimson",
+    "Transparent": "true",
+    "Walkable": "true"
   },
   "\"": {
     "Symbol": "\"",
-    "Color": "DarkGreen",
-    "Transparent": "false",
-    "Walkable": "false"
+    "Color": "DarkOrange",
+    "Transparent": "true",
+    "Walkable": "true"
   },
   "*": {
     "Symbol": "*",

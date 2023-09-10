@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -10,9 +10,13 @@
   <ItemGroup>
     <None Remove="Resources\map.txt" />
     <None Remove="Resources\cellConfig.json" />
+    <None Remove="Resources\testMap.txt" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Resources\testMap.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\map.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace lampbearer.Map
 {
-    internal class Cell : RogueSharp.Cell
+    public class Cell : RogueSharp.Cell
     {
         public char Symbol { get; set; }
         public Color Color { get; set; }

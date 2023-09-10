@@ -12,7 +12,8 @@ namespace lampbearer.Map
 {
     internal class FileMapGenerator : IMapGenerator
     {
-        private static readonly String _path = "./Resources/map.txt";
+        private static readonly String _path = "./Resources/Map.txt";
+        private static readonly String[] delims = new[] { "\r\n", "\r", "\n" };
 
         public Map GenerateMap()
         {
@@ -20,13 +21,14 @@ namespace lampbearer.Map
             var mapConfig = FileMapGenerator.ReadMapFile();
 
             Map map = new Map();
-            map.Initialize(mapConfig[0].Length, mapConfig.Count);
+            map.Initialize(GetWidth(mapConfig), GetHeight(mapConfig));
             for (int y = 0; y < map.Height; y++)
             {
                 for (int x = 0; x < map.Width; x++)
                 {
                     CellConfigProperty cellConfigProperty =
                         GetCellConfigProperty(symbolToConfig, mapConfig[y][x]);
+
                     map.SetCellProperties(x, y, cellConfigProperty.Transparent,
                         cellConfigProperty.Walkable, getColor(cellConfigProperty.Color),
                         cellConfigProperty.Symbol);
@@ -34,17 +36,46 @@ namespace lampbearer.Map
 
             }
 
+            PlaceLight(map);
             return map;
         }
 
-        private Color getColor(string color)
+        private static void PlaceLight(Map map)
+        {
+            map.Lights.Add(Light.Light.DefaultCircle(15, 16, 15, Color.Goldenrod));
+            map.Lights.Add(Light.Light.DefaultCircle(152, 20, 8, Color.LightSlateGray));
+        }
+
+        private static int GetHeight(List<string> mapConfig)
+        {
+            return mapConfig.Count;
+        }
+
+        private static int GetWidth(List<string> mapConfig)
+        {
+            return mapConfig[0].Length;
+        }
+
+        private static Color getColor(string color)
         {
             return Color.FromName(color);
         }
 
-        public CellConfigProperty GetCellConfigProperty(
+        public static CellConfigProperty GetCellConfigProperty(
             Dictionary<string, CellConfigProperty> symbolToConfig, char mapConfigSymbol)
         {
+            if (!symbolToConfig.ContainsKey(mapConfigSymbol.ToString()))
+            {
+                CellConfigProperty cellConfigProperty = new()
+                {
+                    Symbol = mapConfigSymbol,
+                    Color = Color.Red.Name.ToString(),
+                    Transparent=false,
+                    Walkable=true
+                };
+                return cellConfigProperty;
+            }
+
             return symbolToConfig[mapConfigSymbol.ToString()];
         }
 
@@ -52,10 +83,10 @@ namespace lampbearer.Map
         {
             List<string> result = new List<string>();
 
+            //TODO: сделать чтение без специальных симоволов, чтобы не зависить от ОС
             StreamReader sr = new StreamReader(_path);
             string str = sr.ReadToEnd();
-
-            foreach(var row in str.Split('\n'))
+            foreach (var row in str.Split(delims, StringSplitOptions.RemoveEmptyEntries))
             {
                 result.Add(row);
 
